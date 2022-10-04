@@ -1,0 +1,70 @@
+# Adopt version 2 syntax:
+#   https://docs.docker.com/compose/compose-file/#/versioning
+version: '3'
+
+volumes:
+    elasticsearch-data:
+        driver: local
+    database_data2:
+        driver: local
+
+services:
+    ###########################
+    # Setup the Apache container
+    ###########################
+    api_httpd:
+        container_name: api_apache
+        restart: on-failure
+        image: httpd:2.4
+        ports:
+            - "80:80"
+        volumes:
+            - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
+            - ./docker/apache/vhosts/:/usr/local/apache2/conf/vhosts
+        volumes_from:
+            - api_php
+
+    ###########################
+    # Setup the NodeJS container
+    ###########################
+
+    api_nodejs:
+        build: ./docker/nodejs/
+        container_name: api_nodejs
+        volumes:
+            - ../:/var/www:cached
+
+    ###########################
+    # Setup the PHP container
+    ###########################
+    api_php:
+        container_name: api_php
+        restart: on-failure
+        build:
+          context: ..
+          dockerfile: ./api-infrastructure/docker/php/Dockerfile
+        expose:
+            - 9000
+        volumes:
+            - ../:/usr/local/apache2/htdocs:cached
+        env_file:
+            - .env
+        user: "${UID}:${GID}"
+
+    ###########################
+    # Setup the Database (MariaDB) container
+    ###########################
+    api_mariadb:
+        container_name: api_mariadb
+        restart: on-failure
+        image: mariadb:10.7
+        expose:
+            - 3306
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: laravel
+        volumes:
+            - ./data/mysql:/var/lib/mysql:cached
+            - ./docker/mysql/conf-mysql.cnf:/etc/mysql/mysql.conf.d/conf-mysql.cnf:ro
+            - ./docker/mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
