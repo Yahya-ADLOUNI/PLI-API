@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Monolog\DateTimeImmutable;
 
 class User extends Authenticatable
 {
@@ -84,21 +82,20 @@ class User extends Authenticatable
         $this->email = $email;
     }
 
-    /**
-     * @return string|null
-     * @throws Exception
+    /***
+     * @return HasMany
      */
-    public function getCreatedAt(): ?string
+    public function interests(): HasMany
     {
-        return $this->created_at ? new DateTimeImmutable($this->created_at) : null;
+        return $this->hasMany(Interest::class);
     }
 
-    /**
-     * @return string|null
-     * @throws Exception
+
+    /***
+     * @return HasMany
      */
-    public function getUpdatedAt(): ?string
+    public function artworks(): HasMany
     {
-        return $this->updated_at ? new DateTimeImmutable($this->updated_at) : null;
+        return $this->hasMany(Artwork::class);
     }
 }
