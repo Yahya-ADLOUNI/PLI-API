@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SourceController;
+use App\Http\Controllers\Api\ArtworkController;
+use App\Http\Controllers\Api\InterestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +23,6 @@ Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('sources', SourceController::class);
+    Route::apiResource('artworks', ArtworkController::class);
+    Route::apiResource('interests', InterestController::class);
 });
