@@ -40,7 +40,7 @@ COPY api-infrastructure/docker/php/app.ini /etc/php7/conf.d/app.ini
 WORKDIR /usr/local/apache2/htdocs
 
 COPY . ./
-# RUN composer install --no-interaction
+RUN composer install --no-interaction
 
 # Install fake user pliuser
 ARG pliuser_UID=1000
@@ -50,7 +50,7 @@ RUN chown -R pliuser.pliuser /usr/local/apache2/htdocs
 
 USER pliuser
 
-# RUN php artisan key:generate
+RUN php artisan key:generate
 
 EXPOSE 9000
 CMD ["php-fpm"]

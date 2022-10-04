@@ -3,9 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -22,6 +22,15 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        DB::table('users')->insert([
+            'name' => 'Admin',
+            'email' => 'support@pli.io',
+            'email_verified_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
+            'password' => bcrypt('password'),
+            'created_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
+            'updated_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s')
+        ]);
     }
 
     /**
