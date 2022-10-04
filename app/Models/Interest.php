@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Source extends Model
+class Interest extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -14,7 +15,7 @@ class Source extends Model
      */
     protected $fillable = [
         'name',
-        'url',
+        'parent_id',
     ];
 
     /**
@@ -42,19 +43,27 @@ class Source extends Model
     }
 
     /**
-     * @return string
+     * @return int|null
      */
-    public function getUrl(): string
+    public function getParentId(): ?int
     {
-        return $this->url;
+        return $this->parent_id;
     }
 
     /**
-     * @param string $url
+     * @param int|null $parent_id
      */
-    public function setUrl(string $url): void
+    public function setParentId(?int $parent_id): void
     {
-        $this->url = $url;
+        $this->parent_id = $parent_id;
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Interest::class);
     }
 
     /***
@@ -63,5 +72,13 @@ class Source extends Model
     public function artworks(): HasMany
     {
         return $this->hasMany(Artwork::class);
+    }
+
+    /***
+     * @return HasMany
+     */
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
     }
 }
