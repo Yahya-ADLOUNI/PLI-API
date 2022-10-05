@@ -28,6 +28,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('users/{user}/get-user-artworks', [UserController::class, 'getUserArtworks']);
 
     Route::apiResource('sources', SourceController::class);
+    Route::get('sources/{source}/get-source-artworks', [SourceController::class, 'getSourceArtworks']);
+
     Route::apiResource('artworks', ArtworkController::class);
+    Route::get('artworks/{artwork}/get-artwork-interests', [ArtworkController::class, 'getArtworkInterests']);
+    Route::get('artworks/{artwork}/get-artwork-users', [ArtworkController::class, 'getArtworkUsers']);
+
     Route::apiResource('interests', InterestController::class);
 });

@@ -91,4 +91,12 @@ class Artwork extends Model
     {
         return $this->belongsToMany(Interest::class);
     }
+
+    /***
+     * @return BelongsToMany
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

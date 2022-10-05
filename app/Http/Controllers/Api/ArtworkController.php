@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Artwork\ArtworkRequest;
 use App\Http\Resources\ArtworkResource;
+use App\Http\Resources\InterestResource;
+use App\Http\Resources\UserResource;
 use App\Models\Artwork;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -70,5 +72,27 @@ class ArtworkController extends Controller
         return response()->json([
             'message' => 'Artwork deleted successfully'
         ], Response::HTTP_OK);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Artwork $artwork
+     * @return AnonymousResourceCollection
+     */
+    public function getArtworkInterests(Artwork $artwork): AnonymousResourceCollection
+    {
+        return InterestResource::collection($artwork->interests);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Artwork $artwork
+     * @return AnonymousResourceCollection
+     */
+    public function getArtworkUsers(Artwork $artwork): AnonymousResourceCollection
+    {
+        return UserResource::collection($artwork->users);
     }
 }

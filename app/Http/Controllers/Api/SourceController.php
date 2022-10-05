@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Source\SourceRequest;
+use App\Http\Resources\ArtworkResource;
 use App\Http\Resources\SourceResource;
 use App\Models\Source;
 use Illuminate\Http\JsonResponse;
@@ -70,5 +71,16 @@ class SourceController extends Controller
         return response()->json([
             'message' => 'Source deleted successfully'
         ], Response::HTTP_OK);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Source $source
+     * @return AnonymousResourceCollection
+     */
+    public function getSourceArtworks(Source $source): AnonymousResourceCollection
+    {
+        return ArtworkResource::collection($source->artworks);
     }
 }
