@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Interest extends Model
@@ -67,18 +68,18 @@ class Interest extends Model
     }
 
     /***
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function artworks(): HasMany
+    public function artworks(): BelongsToMany
     {
-        return $this->hasMany(Artwork::class);
+        return $this->belongsToMany(Artwork::class);
     }
 
     /***
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function users(): HasMany
+    public function users(): BelongsToMany
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class);
     }
 }

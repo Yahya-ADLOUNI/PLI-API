@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -83,19 +84,19 @@ class User extends Authenticatable
     }
 
     /***
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function interests(): HasMany
+    public function interests(): BelongsToMany
     {
-        return $this->hasMany(Interest::class);
+        return $this->belongsToMany(Interest::class);
     }
 
 
     /***
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function artworks(): HasMany
+    public function artworks(): BelongsToMany
     {
-        return $this->hasMany(Artwork::class);
+        return $this->belongsToMany(Artwork::class);
     }
 }
