@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserRequest;
+use App\Http\Resources\InterestResource;
 use App\Http\Resources\UserResource;
+use App\Models\Artwork;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -69,6 +71,43 @@ class UserController extends Controller
         $user->delete();
         return response()->json([
             'message' => 'User deleted successfully'
+        ], Response::HTTP_OK);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param User $user
+     * @return AnonymousResourceCollection
+     */
+    public function getUserInterests(User $user): AnonymousResourceCollection
+    {
+        return InterestResource::collection($user->interests);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param User $user
+     * @return AnonymousResourceCollection
+     */
+    public function getUserArtworks(User $user): AnonymousResourceCollection
+    {
+        return InterestResource::collection($user->artworks);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param User $user
+     * @param Artwork $artwork
+     * @return JsonResponse
+     */
+    public function putUserArtworks(User $user, Artwork $artwork): JsonResponse
+    {
+        $user->artworks()->attach($artwork);
+        return response()->json([
+            'message' => 'Artwork added successfully'
         ], Response::HTTP_OK);
     }
 }
