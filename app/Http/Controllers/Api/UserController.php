@@ -7,6 +7,7 @@ use App\Http\Requests\User\UserRequest;
 use App\Http\Resources\InterestResource;
 use App\Http\Resources\UserResource;
 use App\Models\Artwork;
+use App\Models\Interest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
