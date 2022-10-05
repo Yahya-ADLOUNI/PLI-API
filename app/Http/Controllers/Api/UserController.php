@@ -110,4 +110,19 @@ class UserController extends Controller
             'message' => 'Artwork added successfully'
         ], Response::HTTP_OK);
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param User $user
+     * @param Interest $interest
+     * @return JsonResponse
+     */
+    public function putUserInterests(User $user, Interest $interest): JsonResponse
+    {
+        $user->interests()->attach($interest);
+        return response()->json([
+            'message' => 'Interest added successfully'
+        ], Response::HTTP_OK);
+    }
 }

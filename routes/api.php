@@ -23,6 +23,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::put('users/{user}/{artwork}/add-user-artwork', [UserController::class, 'putUserArtworks']);
+    Route::put('users/{user}/{interest}/add-user-interest', [UserController::class, 'putUserInterests']);
     Route::get('users/{user}/get-user-interests', [UserController::class, 'getUserInterests']);
     Route::get('users/{user}/get-user-artworks', [UserController::class, 'getUserArtworks']);
 
