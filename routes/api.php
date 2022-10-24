@@ -35,4 +35,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('artworks/{artwork}/get-artwork-users', [ArtworkController::class, 'getArtworkUsers']);
 
     Route::apiResource('interests', InterestController::class);
+//    Route::get('interests/{interest_id}/get-interest-artworks', InterestController::class);
+//    Route::get('interests/{interest_id}/get-interest-users', InterestController::class);
 });

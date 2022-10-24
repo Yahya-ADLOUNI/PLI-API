@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('status');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -28,6 +29,7 @@ return new class extends Migration {
             'email' => 'support@pli.io',
             'email_verified_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
             'password' => bcrypt('password'),
+            'status' => true,
             'created_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
             'updated_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s')
         ]);
