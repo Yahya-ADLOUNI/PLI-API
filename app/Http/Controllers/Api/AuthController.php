@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -39,6 +41,28 @@ class AuthController extends Controller
             'access_token' => $authToken,
             'id' => $user->id,
             'name' => $user->name
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function signup(UserRequest $request): JsonResponse
+    {
+
+        $user = User::create([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+        ]);
+
+        $authToken = $user->createToken('auth-token')->plainTextToken;
+
+        return response()->json([
+            'access_token' => $authToken,
+            'user' => new UserResource($user)
         ]);
     }
 }

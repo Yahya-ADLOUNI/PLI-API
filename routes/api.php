@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\InterestController;
 */
 
 Route::post('login', [AuthController::class, 'login']);
+Route::post('signup', [AuthController::class, 'signup']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
