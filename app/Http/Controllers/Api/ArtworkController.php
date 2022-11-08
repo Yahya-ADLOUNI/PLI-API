@@ -4,16 +4,25 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Artwork\ArtworkRequest;
+use App\Http\Requests\Spotify\SpotifyRequest;
 use App\Http\Resources\ArtworkResource;
 use App\Http\Resources\InterestResource;
 use App\Http\Resources\UserResource;
 use App\Models\Artwork;
+use App\Services\SpotifyService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
 class ArtworkController extends Controller
 {
+    private SpotifyService $spotifyService;
+
+    public function __construct(SpotifyService $spotifyService)
+    {
+        $this->spotifyService = $spotifyService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -71,6 +80,19 @@ class ArtworkController extends Controller
         $artwork->delete();
         return response()->json([
             'message' => 'Artwork deleted successfully'
+        ], Response::HTTP_OK);
+    }
+
+    /**
+     * @param SpotifyRequest $request
+     * @return JsonResponse
+     */
+    public function getAlbums(SpotifyRequest $request): JsonResponse
+    {
+        $params = $request->validated();
+        $data = $this->spotifyService->getData($params['input']);
+        return response()->json([
+            'data' => $data
         ], Response::HTTP_OK);
     }
 

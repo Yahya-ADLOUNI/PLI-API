@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('sources', SourceController::class);
     Route::get('sources/{source}/get-source-artworks', [SourceController::class, 'getSourceArtworks']);
 
+    Route::get('spotify/albums', [ArtworkController::class, 'getAlbums']);
     Route::apiResource('artworks', ArtworkController::class);
     Route::get('artworks/{artwork}/get-artwork-interests', [ArtworkController::class, 'getArtworkInterests']);
     Route::get('artworks/{artwork}/get-artwork-users', [ArtworkController::class, 'getArtworkUsers']);

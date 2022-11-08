@@ -44,7 +44,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param UserRequest $request
      * @return JsonResponse
      */
     public function signup(UserRequest $request): JsonResponse
