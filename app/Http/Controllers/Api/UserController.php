@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
@@ -22,7 +23,16 @@ class UserController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return UserResource::collection(User::all());
+        $response = Http::withHeaders([
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/x-www-form-urlencoded'
+            ])->withBasicAuth(
+                '2b12228eabf04131b6f4a00119aa4253',
+                '2a0f0949ffc34816a52c3adeb113aa7d'
+            )->asForm()->post('https://accounts.spotify.com/api/token', ["grant_type"=>"client_credentials"]);
+        dump($response);
+        dd('DONE !');
+//        return UserResource::collection(User::all());
     }
 
     /**
