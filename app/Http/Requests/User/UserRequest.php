@@ -25,7 +25,8 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', Rule::unique('users', 'name')],
+            'name' => ['required', 'string'],
+            'username' => ['required', 'string', Rule::unique('users', 'username')],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'password' => ['required', 'string'],
         ];
