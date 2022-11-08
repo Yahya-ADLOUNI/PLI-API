@@ -4,15 +4,35 @@ namespace App\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\Response;
 
 class SpotifyService
 {
+
+    public function getData(string $input): mixed
+    {
+        $token = $this->Authenticate();
+        if ($token) {
+            $client = new Client();
+            $response = $client->request('GET', 'https://api.spotify.com/v1/search?q=' . $input . '&type=album', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'Authorization' => 'Bearer ' . $token['access_token'],
+                ],
+            ]);
+            if ($response->getStatusCode() !== Response::HTTP_OK) return false;
+            return json_decode($response->getBody()->getContents(), true);
+        }
+        return $token;
+    }
+
 
     /**
      * @return false|mixed
      * @throws GuzzleException
      */
-    public function Authenticate(): mixed
+    private function Authenticate(): mixed
     {
         $client = new Client();
         $response = $client->request('POST', 'https://accounts.spotify.com/api/token', [
@@ -25,8 +45,7 @@ class SpotifyService
                 'grant_type' => 'client_credentials'
             ]
         ]);
-        if ($response->getStatusCode() !== 200) return false;
+        if ($response->getStatusCode() !== Response::HTTP_OK) return false;
         return json_decode($response->getBody()->getContents(), true);
     }
-
 }
