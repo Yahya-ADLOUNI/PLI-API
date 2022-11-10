@@ -24,7 +24,8 @@ class SpotifyRequest extends FormRequest
     public function rules()
     {
         return [
-            'input' => ['required', 'string'],
+            'input' => ['nullable', 'string'],
+            'offset' => ['nullable', 'int'],
         ];
     }
 }
