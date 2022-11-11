@@ -24,7 +24,6 @@ class UserController extends Controller
         $this->spotifyService = $spotifyService;
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -32,16 +31,7 @@ class UserController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $response = Http::withHeaders([
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/x-www-form-urlencoded'
-            ])->withBasicAuth(
-                '2b12228eabf04131b6f4a00119aa4253',
-                '2a0f0949ffc34816a52c3adeb113aa7d'
-            )->asForm()->post('https://accounts.spotify.com/api/token', ["grant_type"=>"client_credentials"]);
-        dump($response);
-        dd('DONE !');
-//        return UserResource::collection(User::all());
+        return UserResource::collection(User::all());
     }
 
     /**
