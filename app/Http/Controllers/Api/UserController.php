@@ -12,17 +12,9 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
-use App\Services\SpotifyService;
 
 class UserController extends Controller
 {
-
-    private SpotifyService $spotifyService;
-
-    public function __construct(SpotifyService $spotifyService)
-    {
-        $this->spotifyService = $spotifyService;
-    }
 
     /**
      * Display a listing of the resource.
