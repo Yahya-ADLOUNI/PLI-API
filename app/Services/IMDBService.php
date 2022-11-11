@@ -35,7 +35,7 @@ class IMDBService
     {
         $client = new Client();
         $response = $client->request('GET',
-            'https://imdb-api.com/en/API/Search/' . 'k_1e2t9k4z' . '/' . $input
+            'https://imdb-api.com/en/API/Search/' . env('API_IMDB_KEY') . '/' . $input
         );
         if ($response->getStatusCode() !== Response::HTTP_OK) return false;
         return json_decode($response->getBody()->getContents(), true);
@@ -49,7 +49,7 @@ class IMDBService
     {
         $client = new Client();
         $response = $client->request('GET',
-            'https://imdb-api.com/en/API/MostPopularMovies/' . 'k_1e2t9k4z'
+            'https://imdb-api.com/en/API/MostPopularMovies/' . env('API_IMDB_KEY')
         );
         if ($response->getStatusCode() !== Response::HTTP_OK) return false;
         return json_decode($response->getBody()->getContents(), true);

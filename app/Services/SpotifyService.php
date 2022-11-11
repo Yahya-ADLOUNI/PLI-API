@@ -90,7 +90,7 @@ class SpotifyService
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/x-www-form-urlencoded',
             ],
-            'auth' => ["2b12228eabf04131b6f4a00119aa4253", "2a0f0949ffc34816a52c3adeb113aa7d"],
+            'auth' => [env('API_SPOTIFY_USERNAME'), env('API_SPOTIFY_PASSWORD')],
             'form_params' => [
                 'grant_type' => 'client_credentials'
             ]
