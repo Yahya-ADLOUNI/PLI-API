@@ -19,8 +19,7 @@ class SpotifyService
             $albums[] = [
                 'id' => $album['id'],
                 'name' => $album['name'],
-                'image' => $album['images'][0],
-                'href' => $album['href'],
+                'image' => $album['images'][0]['url'],
             ];
         }
         return $albums;

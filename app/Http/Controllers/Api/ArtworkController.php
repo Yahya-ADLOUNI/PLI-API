@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Artwork\ArtworkRequest;
+use App\Http\Requests\IMDB\IMDBRequest;
 use App\Http\Requests\Spotify\SpotifyRequest;
 use App\Http\Resources\ArtworkResource;
 use App\Http\Resources\InterestResource;
 use App\Http\Resources\UserResource;
 use App\Models\Artwork;
+use App\Services\IMDBService;
 use App\Services\SpotifyService;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -17,10 +20,12 @@ use Illuminate\Http\Response;
 class ArtworkController extends Controller
 {
     private SpotifyService $spotifyService;
+    private IMDBService $IMDBService;
 
-    public function __construct(SpotifyService $spotifyService)
+    public function __construct(SpotifyService $spotifyService, IMDBService $IMDBService)
     {
         $this->spotifyService = $spotifyService;
+        $this->IMDBService = $IMDBService;
     }
 
     /**
@@ -86,17 +91,30 @@ class ArtworkController extends Controller
     /**
      * @param SpotifyRequest $request
      * @return JsonResponse
+     * @throws GuzzleException
      */
-    public function getAlbums(SpotifyRequest $request): JsonResponse
+    public function getSpotify(SpotifyRequest $request): JsonResponse
     {
         $params = $request->validated();
-        if (isset($params['input'])) {
-            $jsonData = $this->spotifyService->search($params['input'], $params['offset']);
-        } else {
-            $jsonData = $this->spotifyService->random($params['offset']);
-        }
+        if (isset($params['input'])) $jsonData = $this->spotifyService->search($params['input'], $params['offset'] ?? null);
+        else $jsonData = $this->spotifyService->random($params['offset'] ?? null);
         $data = $this->spotifyService->parseSpotify($jsonData);
+        return response()->json([
+            'data' => $data
+        ], Response::HTTP_OK);
+    }
 
+    /**
+     * @param IMDBRequest $request
+     * @return JsonResponse
+     * @throws GuzzleException
+     */
+    public function getIMDB(IMDBRequest $request): JsonResponse
+    {
+        $params = $request->validated();
+        if (isset($params['input'])) $jsonData = $this->IMDBService->search($params['input']);
+        else $jsonData = $this->IMDBService->random();
+        $data = $this->IMDBService->parseIMDB($jsonData);
         return response()->json([
             'data' => $data
         ], Response::HTTP_OK);
