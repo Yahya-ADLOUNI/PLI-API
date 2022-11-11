@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\IMDB;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UserRequest extends FormRequest
+class IMDBRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +24,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
-            'username' => ['required', 'string', Rule::unique('users', 'username')],
-            'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'password' => ['required', 'string'],
+            'input' => ['nullable', 'string'],
         ];
     }
 }

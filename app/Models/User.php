@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -19,6 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
     ];
@@ -69,6 +70,22 @@ class User extends Authenticatable
     /**
      * @return string
      */
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername(string $username): void
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;
@@ -83,19 +100,19 @@ class User extends Authenticatable
     }
 
     /***
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function interests(): HasMany
+    public function interests(): BelongsToMany
     {
-        return $this->hasMany(Interest::class);
+        return $this->belongsToMany(Interest::class);
     }
 
 
     /***
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function artworks(): HasMany
+    public function artworks(): BelongsToMany
     {
-        return $this->hasMany(Artwork::class);
+        return $this->belongsToMany(Artwork::class);
     }
 }

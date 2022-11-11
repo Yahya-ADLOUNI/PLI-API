@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users_artworks', function (Blueprint $table) {
+        Schema::create('artwork_interest', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('interest_id');
             $table->unsignedBigInteger('artwork_id');
-            $table->unsignedBigInteger('user_id');
+            $table->foreign('interest_id')->on('interests')->references('id')->onDelete('cascade');
             $table->foreign('artwork_id')->on('artworks')->references('id')->onDelete('cascade');
-            $table->foreign('user_id')->on('users')->references('id')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_artworks');
+        Schema::dropIfExists('artwork_interest');
     }
 };

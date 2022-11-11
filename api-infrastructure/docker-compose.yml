@@ -5,7 +5,7 @@ version: '3'
 volumes:
     elasticsearch-data:
         driver: local
-    database_data2:
+    database-data:
         driver: local
 
 services:
@@ -65,6 +65,6 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: laravel
         volumes:
-            - ./data/mysql:/var/lib/mysql:cached
+            - database-data:/var/lib/mysql:cached
             - ./docker/mysql/conf-mysql.cnf:/etc/mysql/mysql.conf.d/conf-mysql.cnf:ro
             - ./docker/mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
