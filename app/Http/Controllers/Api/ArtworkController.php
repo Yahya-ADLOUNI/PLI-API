@@ -96,12 +96,13 @@ class ArtworkController extends Controller
     public function getSpotify(SpotifyRequest $request): JsonResponse
     {
         $params = $request->validated();
-        if (isset($params['input'])) $jsonData = $this->spotifyService->search($params['input'], $params['offset'] ?? null);
+        if (isset($params['input'])) $jsonData = $this->spotifyService
+            ->search($params['input'], $params['offset'] ?? null);
         else $jsonData = $this->spotifyService->random($params['offset'] ?? null);
+        if (!$jsonData) return response()
+            ->json(['message' => 'Error fetching data from Spotify'], Response::HTTP_SERVICE_UNAVAILABLE);
         $data = $this->spotifyService->parseSpotify($jsonData);
-        return response()->json([
-            'data' => $data
-        ], Response::HTTP_OK);
+        return response()->json(['data' => $data], Response::HTTP_OK);
     }
 
     /**
