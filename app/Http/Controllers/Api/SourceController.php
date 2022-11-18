@@ -7,9 +7,7 @@ use App\Http\Requests\Source\SourceRequest;
 use App\Http\Resources\ArtworkResource;
 use App\Http\Resources\SourceResource;
 use App\Models\Source;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Response;
 
 class SourceController extends Controller
 {
@@ -24,15 +22,12 @@ class SourceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param SourceRequest $request
-     * @return SourceResource
+     * @return void
      */
-    public function store(SourceRequest $request): SourceResource
+    public function store(SourceRequest $request)
     {
-        $source = Source::create($request->validated());
-        return new SourceResource($source);
+        //
     }
 
     /**
@@ -47,30 +42,22 @@ class SourceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param SourceRequest $request
      * @param Source $source
-     * @return SourceResource
+     * @return void
      */
-    public function update(SourceRequest $request, Source $source): SourceResource
+    public function update(SourceRequest $request, Source $source)
     {
-        $source->update($request->validated());
-        return new SourceResource($source);
+        //
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
      * @param Source $source
-     * @return JsonResponse
+     * @return void
      */
-    public function destroy(Source $source): JsonResponse
+    public function destroy(Source $source)
     {
-        $source->delete();
-        return response()->json([
-            'message' => 'Source deleted successfully'
-        ], Response::HTTP_OK);
+        //
     }
 
     /**
