@@ -23,19 +23,12 @@ Route::post('signup', [AuthController::class, 'signup']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
-    Route::put('users/{user}/{artwork}/add-user-artwork', [UserController::class, 'putUserArtworks']);
-    Route::put('users/{user}/{interest}/add-user-interest', [UserController::class, 'putUserInterests']);
-    Route::get('users/{user}/get-user-interests', [UserController::class, 'getUserInterests']);
-    Route::get('users/{user}/get-user-artworks', [UserController::class, 'getUserArtworks']);
 
     Route::apiResource('sources', SourceController::class);
-    Route::get('sources/{source}/get-source-artworks', [SourceController::class, 'getSourceArtworks']);
 
     Route::apiResource('artworks', ArtworkController::class);
     Route::get('art/spotify', [ArtworkController::class, 'getSpotify']);
     Route::get('art/imdb', [ArtworkController::class, 'getIMDB']);
+    Route::get('feed', [ArtworkController::class, 'feed']);
 
-    Route::apiResource('interests', InterestController::class);
-//    Route::get('interests/{interest_id}/get-interest-artworks', InterestController::class);
-//    Route::get('interests/{interest_id}/get-interest-users', InterestController::class);
 });

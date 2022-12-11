@@ -22,10 +22,18 @@ return new class extends Migration
         });
 
         DB::table('sources')->insert([
-            'name' => 'spotify',
-            'token' => null,
-            'created_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
-            'updated_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s')
+            [
+                'name' => 'spotify',
+                'token' => null,
+                'created_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
+                'updated_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s')
+            ],
+            [
+                'name' => 'imdb',
+                'token' => null,
+                'created_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
+                'updated_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s')
+            ]
         ]);
     }
 

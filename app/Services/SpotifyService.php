@@ -15,15 +15,17 @@ class SpotifyService
      * @param array $spotifyData
      * @return array
      */
-    public function parseSpotify(array $spotifyData): array
+    public function parseSpotify(array $spotifyData, bool $feed = false): array
     {
         $albums = [];
         foreach ($spotifyData['albums']['items'] as $album) {
-            $albums[] = [
+            $add = [
                 'id' => $album['id'],
                 'name' => $album['name'],
                 'image' => $album['images'][0]['url'],
             ];
+            if ($feed) $add['source'] = 'spotify';
+            $albums[] = $add;
         }
         return $albums;
     }
@@ -47,7 +49,7 @@ class SpotifyService
      */
     public function random(int|null $offset = 0): mixed
     {
-        $uri = 'https://api.spotify.com/v1/browse/new-releases?country=FR&offset=' . ($offset ?? 0);
+        $uri = 'https://api.spotify.com/v1/browse/new-releases?country=FR&limit=50&offset=' . ($offset * 50 ?? 0);
         return $this->spotifySecurity($uri);
     }
 
