@@ -19,7 +19,7 @@ class IMDBService
         foreach ($source as $album) {
             $add = [
                 'id' => $album['id'],
-                'title' => $album['title'],
+                'name' => $album['title'],
                 'image' => $album['image'] ?? null,
             ];
             if ($feed) $add['source'] = 'imdb';

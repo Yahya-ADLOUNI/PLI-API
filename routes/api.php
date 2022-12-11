@@ -5,7 +5,6 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SourceController;
 use App\Http\Controllers\Api\ArtworkController;
-use App\Http\Controllers\Api\InterestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +22,9 @@ Route::post('signup', [AuthController::class, 'signup']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
+    Route::post('users/{user}/seed-profile', [UserController::class, 'seedProfile']);
+    Route::post('users/{user}/add-artwork', [UserController::class, 'addArtwork']);
+    Route::delete('users/{user}/remove-artwork/{artwork}', [UserController::class, 'removeArtwork']);
 
     Route::apiResource('sources', SourceController::class);
 
