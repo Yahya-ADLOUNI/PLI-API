@@ -13,6 +13,7 @@ use App\Models\Artwork;
 use App\Services\IMDBService;
 use App\Services\SpotifyService;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -96,12 +97,13 @@ class ArtworkController extends Controller
     public function getSpotify(SpotifyRequest $request): JsonResponse
     {
         $params = $request->validated();
-        if (isset($params['input'])) $jsonData = $this->spotifyService->search($params['input'], $params['offset'] ?? null);
+        if (isset($params['input'])) $jsonData = $this->spotifyService
+            ->search($params['input'], $params['offset'] ?? null);
         else $jsonData = $this->spotifyService->random($params['offset'] ?? null);
+        if (!$jsonData) return response()
+            ->json(['message' => 'Error fetching data from Spotify'], Response::HTTP_SERVICE_UNAVAILABLE);
         $data = $this->spotifyService->parseSpotify($jsonData);
-        return response()->json([
-            'data' => $data
-        ], Response::HTTP_OK);
+        return response()->json(['data' => $data], Response::HTTP_OK);
     }
 
     /**
@@ -118,6 +120,23 @@ class ArtworkController extends Controller
         return response()->json([
             'data' => $data
         ], Response::HTTP_OK);
+    }
+
+    public function feed(Request $request): JsonResponse
+    {
+        $params = $request->validate(['sort' => 'nullable|string', 'offset' => 'nullable|integer']);
+        if (array_key_exists('offset', $params)) {
+            $spotifyData = $this->spotifyService->random($params['offset'] ?? null);
+            $IMDBData = $this->IMDBService->random();
+        } else {
+            $spotifyData = $this->spotifyService->random();
+            $IMDBData = $this->IMDBService->latest();
+        }
+        $spotify = $this->spotifyService->parseSpotify($spotifyData, true);
+        $IMDB = $this->IMDBService->parseIMDB($IMDBData, true);
+        $result = array_merge($IMDB, $spotify);
+        shuffle($result);
+        return response()->json(['data' => $result], Response::HTTP_OK);
     }
 
     /**
