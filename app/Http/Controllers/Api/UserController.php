@@ -94,6 +94,8 @@ class UserController extends Controller
     {
         try {
             foreach ($profileSeed->validated('data') as $artwork) $this->userService->addArtwork($artwork, $user);
+            $user->status = false;
+            $user->save();
             return response()->json(['message' => 'Added artworks'], Response::HTTP_OK);
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);

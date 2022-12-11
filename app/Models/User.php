@@ -22,6 +22,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -81,6 +82,22 @@ class User extends Authenticatable
     public function setUsername(string $username): void
     {
         $this->username = $username;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getStatus(): bool
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param bool $status
+     */
+    public function setStatus(bool $status): void
+    {
+        $this->status = $status;
     }
 
     /**
